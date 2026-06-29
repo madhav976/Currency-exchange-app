@@ -16,6 +16,11 @@ def get_exchange_rate():
         return
     url = f"https://v6.exchangerate-api.com/v6/{API_KEY}/pair/{base_currency}/{target_currency}"
     response = requests.get(url)
+    try:
+        data = response.json()
+    except requests.exceptions.JSONDecodeError:
+        print("The API did not return valid JSON.")
+        return
     data = response.json()
     rate = data['conversion_rate']
     if rate is None:
